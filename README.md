@@ -17,6 +17,10 @@ Explore a professional analysis of the Full-Stack Developer learning roadmap wit
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![CSS Variables](https://img.shields.io/badge/CSS%20Variables-1572B6?style=for-the-badge)
+![Flexbox](https://img.shields.io/badge/Flexbox-06B6D4?style=for-the-badge)
+![CSS Grid](https://img.shields.io/badge/CSS%20Grid-7C3AED?style=for-the-badge)
+![Responsive Design](https://img.shields.io/badge/Responsive-Web%20Design-success?style=for-the-badge)
 ![Responsive](https://img.shields.io/badge/Responsive-Yes-success?style=for-the-badge)
 ![Dark UI](https://img.shields.io/badge/Dark-Modern_UI-6f42c1?style=for-the-badge)
 ![Interactive](https://img.shields.io/badge/Interactive-Expandable_Sections-blue?style=for-the-badge)
