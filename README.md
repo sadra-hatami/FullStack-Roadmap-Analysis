@@ -131,15 +131,15 @@ https://sadra-hatami.github.io/FullStack-Roadmap-Analysis/
 
 # 📬 Contact
 
-**Developer**
+**Developer:**
 
-**Sadra Hatami**
+### Sadra Hatami
 
-📧 **sadra.hatami.1732@gmail.com**
+📧 [Email](mailto:sadra.hatami.1732@gmail.com)
 
-GitHub
 
-https://github.com/sadra-hatami
+🌐 [GitHub](https://github.com/sadra-hatami)
+
 
 ---
 
