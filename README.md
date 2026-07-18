@@ -116,7 +116,6 @@ This project helps aspiring Full-Stack Developers build a structured learning pa
 * Flexbox
 * CSS Grid
 * Responsive Web Design
-* Google Fonts (Vazirmatn)
 
 ---
 
