@@ -25,7 +25,6 @@ Explore a professional analysis of the Full-Stack Developer learning roadmap wit
 ![Dark UI](https://img.shields.io/badge/Dark-Modern_UI-6f42c1?style=for-the-badge)
 ![Interactive](https://img.shields.io/badge/Interactive-Expandable_Sections-blue?style=for-the-badge)
 ![Cross Platform](https://img.shields.io/badge/Cross--Platform-Desktop%20%7C%20Laptop%20%7C%20Tablet%20%7C%20Mobile-6f42c1?style=for-the-badge)
-![Live Demo](https://img.shields.io/badge/Live-Demo-00C853?style=for-the-badge&logo=googlechrome&logoColor=white)
 ![GitHub](https://img.shields.io/badge/Open_Source-Project-black?style=for-the-badge&logo=github)
 
 <br>
