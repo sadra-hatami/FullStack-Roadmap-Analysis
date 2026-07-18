@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تحلیل جامع روادمپ Full-Stack</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07080f;
+  --surface: #0e1018;
+  --surface2: #151720;
+  --surface3: #1c1f2e;
+  --border: #252838;
+  --border2: #2f3347;
+  --fe: #3b82f6;
+  --be: #22c55e;
+  --db: #a855f7;
+  --dv: #f97316;
+  --missing: #ef4444;
+  --gold: #f59e0b;
+  --text: #e2e4f0;
+  --muted: #6b7280;
+  --muted2: #9ca3af;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Vazirmatn', sans-serif;
+  line-height: 1.85;
+  font-size: 15px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(59,130,246,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 90%, rgba(168,85,247,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  padding: 60px 0 70px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 70px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2);
+  color: var(--fe);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 30px;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #fff 0%, #93c5fd 40%, #c4b5fd 70%, #f9a8d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  color: var(--muted2);
+  font-size: 16px;
+  max-width: 560px;
+  margin: 0 auto 36px;
+  font-weight: 300;
+}
+
+.score-ring {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 30px rgba(245,158,11,0.2);
+  margin: 0 auto;
+}
+
+.score-ring .num {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.score-ring .den {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── Section titles ── */
+.sec-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border2), transparent);
+}
+
+/* ── Overall eval cards ── */
+.eval-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.eval-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  transition: border-color .25s;
+}
+
+.eval-card:hover { border-color: var(--border2); }
+
+.eval-card .label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.eval-card p {
+  font-size: 14px;
+  color: var(--muted2);
+  line-height: 1.7;
+}
+
+.green .label { color: var(--be); }
+.red .label { color: var(--missing); }
+.blue .label { color: var(--fe); }
+.purple .label { color: var(--db); }
+.orange .label { color: var(--dv); }
+
+/* ── Flow diagram ── */
+.flow {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 60px;
+  overflow-x: auto;
+}
+
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+  justify-content: center;
+  min-width: 600px;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.flow-bubble {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.flow-sub {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.flow-arrow {
+  font-size: 20px;
+  color: var(--muted);
+  padding: 0 6px;
+  margin-bottom: 20px;
+}
+
+/* ── Category sections ── */
+.category {
+  margin-bottom: 70px;
+}
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  border-radius: 14px 14px 0 0;
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.cat-title { font-size: 20px; font-weight: 800; }
+.cat-desc { font-size: 13px; color: var(--muted2); margin-top: 2px; }
+
+.fe-cat .cat-header { background: rgba(59,130,246,0.06); }
+.be-cat .cat-header { background: rgba(34,197,94,0.06); }
+.db-cat .cat-header { background: rgba(168,85,247,0.06); }
+.dv-cat .cat-header { background: rgba(249,115,22,0.06); }
+.missing-cat .cat-header { background: rgba(239,68,68,0.06); }
+
+.fe-cat .cat-icon { background: rgba(59,130,246,0.15); }
+.be-cat .cat-icon { background: rgba(34,197,94,0.15); }
+.db-cat .cat-icon { background: rgba(168,85,247,0.15); }
+.dv-cat .cat-icon { background: rgba(249,115,22,0.15); }
+.missing-cat .cat-icon { background: rgba(239,68,68,0.15); }
+
+/* ── Tech cards ── */
+.tech-list {
+  border: 1px solid var(--border);
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+}
+
+.tech-item {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  transition: background .2s;
+}
+
+.tech-item:last-child { border-bottom: none; }
+.tech-item:hover { background: var(--surface2); }
+
+.tech-summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.tech-summary::-webkit-details-marker { display: none; }
+
+.tech-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.essential { background: rgba(34,197,94,0.12); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+.recommended { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+.optional { background: rgba(107,114,128,0.12); color: #9ca3af; border: 1px solid rgba(107,114,128,0.2); }
+.missing-badge { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+.tech-name {
+  font-size: 16px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.tech-tagline {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.tech-chevron {
+  color: var(--muted);
+  transition: transform .3s;
+  font-size: 12px;
+}
+
+details[open] .tech-chevron { transform: rotate(180deg); }
+
+.tech-body {
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+
+/* Inside tech body */
+.qa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.qa-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.qa-card .q {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.qa-card .a {
+  font-size: 13px;
+  color: var(--muted2);
+  line-height: 1.65;
+}
+
+.seven-points {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.point {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.point-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.point-content .pt { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+.point-content .pd { font-size: 13px; color: var(--muted2); line-height: 1.6; }
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.pros, .cons {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.pros { border: 1px solid rgba(34,197,94,0.2); }
+.cons { border: 1px solid rgba(239,68,68,0.2); }
+
+.pros .ph { color: #4ade80; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+.cons .ph { color: #f87171; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+
+.pros li, .cons li {
+  font-size: 13px;
+  color: var(--muted2);
+  margin-right: 14px;
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+
+/* ── Missing section ── */
+.missing-banner {
+  background: rgba(239,68,68,0.05);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 60px;
+}
+
+.missing-banner h3 {
+  color: #f87171;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.missing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  color: #fca5a5;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+}
+
+/* ── Summary table ── */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.summary-table th {
+  background: var(--surface2);
+  padding: 12px 16px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.summary-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted2);
+  vertical-align: top;
+}
+
+.summary-table tr:last-child td { border-bottom: none; }
+.summary-table tr:hover td { background: var(--surface2); }
+
+/* ── Final verdict ── */
+.verdict {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(168,85,247,0.08));
+  border: 1px solid var(--border2);
+  border-radius: 18px;
+  padding: 40px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.verdict h2 {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #93c5fd, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.verdict p {
+  color: var(--muted2);
+  max-width: 680px;
+  margin: 0 auto 30px;
+  line-height: 1.8;
+}
+
+.verdict-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.vchip {
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .qa-grid { grid-template-columns: 1fr; }
+  .pros-cons { grid-template-columns: 1fr; }
+  .flow-row { justify-content: flex-start; }
+  .hero h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-eyebrow">تحلیل تخصصی</div>
+  <h1>روادمپ Full-Stack Developer<br>بررسی جامع و صادقانه</h1>
+  <p>تحلیل کامل هر تکنولوژی، نقاط قوت و ضعف روادمپ، و چیزهایی که گفته نشده</p>
+  <div class="score-ring">
+    <span class="num">6.5</span>
+    <span class="den">از ۱۰</span>
+  </div>
+</div>
+
+<!-- Overall Eval -->
+<div class="sec-title">ارزیابی کلی روادمپ</div>
+<div class="eval-grid">
+  <div class="eval-card green">
+    <div class="label">✅ نقاط قوت</div>
+    <p>پوشش ۴ حوزه اصلی Frontend، Backend، Database و DevOps. معرفی تکنولوژی‌های مدرن مثل Tailwind، FastAPI و GraphQL. ساختار بصری واضح و قابل فهم.</p>
+  </div>
+  <div class="eval-card red">
+    <div class="label">❌ نقاط ضعف</div>
+    <p>Git/GitHub کاملاً غایبه. TypeScript نیست. Testing اصلاً وجود نداره. Security مستقل نیست. ترتیب یادگیری مشخص نشده. Node.js اشتباه دسته‌بندی شده.</p>
+  </div>
+  <div class="eval-card blue">
+    <div class="label">🎯 برای چه کسی مناسبه</div>
+    <p>برای کسی که می‌خواد یه نقشه کلی داشته باشه. برای مبتدیان که می‌خوان بدونن چی در انتظارشونه. ولی به تنهایی کافی نیست.</p>
+  </div>
+  <div class="eval-card purple">
+    <div class="label">⚠️ اشتباهات روادمپ</div>
+    <p>Node.js یه زبان نیست — یه runtime هست. Java و PHP برای فریلنسری و استارتاپ‌های مدرن اولویت ندارن. Go برای مبتدیان خیلی زوده.</p>
+  </div>
+</div>
+
+<!-- Flow -->
+<div class="sec-title">جریان واقعی یه اپلیکیشن</div>
+<div class="flow">
+  <div class="flow-row">
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)">کاربر</div>
+      <div class="flow-sub">Browser/App</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)">Frontend</div>
+      <div class="flow-sub">React + Tailwind</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)">API</div>
+      <div class="flow-sub">REST / GraphQL</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)">Backend</div>
+      <div class="flow-sub">Django / Node</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)">Database</div>
+      <div class="flow-sub">PostgreSQL</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)">Cache</div>
+      <div class="flow-sub">Redis</div>
+    </div>
+    <div class="flow-arrow">←</div>
+    <div class="flow-node">
+      <div class="flow-bubble" style="background:rgba(249,115,22,0.15);color:#fb923c;border:1px solid rgba(249,115,22,0.3)">DevOps</div>
+      <div class="flow-sub">Docker + AWS</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     FRONTEND
+══════════════════════════════════════════ -->
+<div class="category fe-cat">
+  <div class="cat-header">
+    <div class="cat-icon">🖥️</div>
+    <div>
+      <div class="cat-title" style="color:var(--fe)">Frontend</div>
+      <div class="cat-desc">آنچه کاربر می‌بیند و باهاش تعامل داره</div>
+    </div>
+  </div>
+  <div class="tech-list">
+
+    <!-- HTML5 -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">HTML5</span>
+        <span class="tech-tagline">ستون اول وب</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">زبان ساختار صفحات وب. هر چیزی که توی مرورگر می‌بینی با HTML ساخته شده.</div></div>
+          <div class="qa-card"><div class="q">چرا ساخته شد؟</div><div class="a">برای استانداردسازی ساختار محتوای وب. HTML5 در ۲۰۱۴ با قابلیت‌های مدرن مثل video، audio و semantic tags معرفی شد.</div></div>
+          <div class="qa-card"><div class="q">بدونش چی میشه؟</div><div class="a">اصلاً نمیتونی وب بسازی. هیچ فریمورکی بدون درک HTML معنی نداره.</div></div>
+          <div class="qa-card"><div class="q">کجا استفاده میشه؟</div><div class="a">هر سایت و اپ وبی — Google، Instagram، Netflix، هر چیزی که توی مرورگر باز میشه.</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros"><div class="ph">✅ مزایا</div><ul><li>یادگیری سریع</li><li>پایه همه چیز</li><li>Semantic tags برای SEO</li></ul></div>
+          <div class="cons"><div class="ph">❌ معایب</div><ul><li>به تنهایی استاتیکه</li><li>بدون CSS زشته</li><li>بدون JS تعاملی نیست</li></ul></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">بدون HTML حتی یه خط کد frontend نمیتونی بنویسی. این پایه مطلق همه چیزه.</div></div></div>
+          <div class="point"><span class="point-icon">❌</span><div class="point-content"><div class="pt">اگه skip کنی چی میشه؟</div><div class="pd">هیچ چیز دیگه‌ای کار نمیکنه. React هم روی HTML ساخته شده.</div></div></div>
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">در همه آگهی‌های frontend ضروریه. بدون این حتی مصاحبه نمیشی.</div></div></div>
+          <div class="point"><span class="point-icon">🚀</span><div class="point-content"><div class="pt">بعدش چی؟</div><div class="pd">CSS3 — بدون CSS صفحاتت شبیه ۱۹۹۵ میشه.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">یه رزومه شخصی کامل فقط با HTML خالص بساز — بدون هیچ CSS. بعد ببین چقدر CSS مهمه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- CSS3 -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">CSS3</span>
+        <span class="tech-tagline">ظاهر و جذابیت وب</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">زبان استایل‌دهی به HTML. رنگ، فاصله، فونت، انیمیشن، ریسپانسیو — همه با CSS.</div></div>
+          <div class="qa-card"><div class="q">Flexbox vs Grid</div><div class="a">Flexbox برای چیدمان یه بعدی (ردیف یا ستون). Grid برای چیدمان دو بعدی (ردیف و ستون با هم). هر دو ضروریه.</div></div>
+          <div class="qa-card"><div class="q">Media Query چیه؟</div><div class="a">ابزاری برای ریسپانسیو کردن سایت. باهاش برای موبایل، تبلت و دسکتاپ استایل جداگانه میدی.</div></div>
+          <div class="qa-card"><div class="q">CSS Variables</div><div class="a">متغیرهای CSS که کد رو قابل نگهداری میکنن. مثل --primary-color: #0050c8</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">حتی اگه Tailwind استفاده کنی، بدون درک CSS نمیفهمی Tailwind چیکار میکنه. CSS خالص اساس همه فریمورک‌های استایله.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">یه landing page کامل و ریسپانسیو فقط با HTML/CSS خالص — بدون هیچ فریمورکی. دقیقاً مثل همین پروژه‌ای که ساختی.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- JavaScript -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">JavaScript (ES6+)</span>
+        <span class="tech-tagline">روح وب — بدونش نیمه‌ای</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">تنها زبانی که مرورگر نیتیو اجرا میکنه. هر تعاملی که روی وب می‌بینی — JS پشتشه.</div></div>
+          <div class="qa-card"><div class="q">ES6+ یعنی چی؟</div><div class="a">نسخه‌های مدرن JS از ۲۰۱۵ به بعد. arrow functions، destructuring، async/await، modules — اینا ES6+ هستن.</div></div>
+          <div class="qa-card"><div class="q">DOM چیه؟</div><div class="a">Document Object Model — روشی که JS باهاش HTML رو دستکاری میکنه. وقتی دکمه میزنی و چیزی تغییر میکنه، DOM manipulation هست.</div></div>
+          <div class="qa-card"><div class="q">Async/Await</div><div class="a">روش مدیریت عملیات ناهمزمان مثل fetch کردن داده از API. بدونش نمیتونی با backend ارتباط برقرار کنی.</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros"><div class="ph">✅ مزایا</div><ul><li>هم frontend هم backend (Node.js)</li><li>بزرگترین اکوسیستم دنیا</li><li>همه فریمورک‌ها روش بنا شدن</li></ul></div>
+          <div class="cons"><div class="ph">❌ معایب</div><ul><li>type-safe نیست (TypeScript حلش میکنه)</li><li>this کنفیوژن‌زاست</li><li>خیلی راه برای یه کار وجود داره</li></ul></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">JS یادگرفتن = هم frontend هم backend بلد بودن. React، Vue، Angular، Node.js — همه JS هستن.</div></div></div>
+          <div class="point"><span class="point-icon">❌</span><div class="point-content"><div class="pt">اگه skip کنی چی میشه؟</div><div class="pd">نمیتونی Fullstack بشی. حتی Django هم برای frontend نیاز به JS داره.</div></div></div>
+          <div class="point"><span class="point-icon">🚀</span><div class="point-content"><div class="pt">بعدش چی؟</div><div class="pd">TypeScript یاد بگیر، بعد React.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">یه Todo List کامل با JavaScript خالص — add، delete، edit، filter، ذخیره توی localStorage.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- React -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">React.js</span>
+        <span class="tech-tagline">پادشاه فریمورک‌های frontend</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">کتابخانه JavaScript برای ساخت UI. ساخته Meta. بر اساس component-based architecture کار میکنه.</div></div>
+          <div class="qa-card"><div class="q">Component چیه؟</div><div class="a">تکه‌های قابل استفاده مجدد از UI. مثل یه دکمه، کارت، یا کل یه صفحه — هر کدوم یه component جداست.</div></div>
+          <div class="qa-card"><div class="q">Virtual DOM</div><div class="a">React یه نسخه مجازی از DOM نگه میداره و فقط چیزهایی که تغییر کردن رو آپدیت میکنه — خیلی سریع‌تر از DOM مستقیم.</div></div>
+          <div class="qa-card"><div class="q">Hooks چیه؟</div><div class="a">توابع خاص React مثل useState، useEffect، useContext که مدیریت state و side effects رو ممکن میکنن.</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros"><div class="ph">✅ مزایا</div><ul><li>بزرگترین جامعه frontend</li><li>بیشترین job posting</li><li>اکوسیستم عظیم</li><li>Meta پشتشه</li></ul></div>
+          <div class="cons"><div class="ph">❌ معایب</div><ul><li>فقط View layer هست، نه فریمورک کامل</li><li>تغییرات سریع</li><li>نیاز به کتابخانه‌های اضافه</li></ul></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">۶۰٪ آگهی‌های frontend React میخوان. بدونش در بازار بین‌المللی حذف میشی.</div></div></div>
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">JavaScript قوی — مخصوصاً ES6+، async/await، و مفاهیم functional programming.</div></div></div>
+          <div class="point"><span class="point-icon">🚀</span><div class="point-content"><div class="pt">بعدش چی؟</div><div class="pd">Next.js — React به تنهایی برای تولید کافی نیست. Next.js SSR/SSG اضافه میکنه.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">یه داشبورد ارز دیجیتال که از CoinGecko API داده میگیره — همون پروژه پایتونت رو با React بساز!</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Tailwind -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">Tailwind CSS</span>
+        <span class="tech-tagline">انقلاب در استایل‌نویسی</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">فریمورک CSS utility-first. به جای نوشتن CSS، از کلاس‌های آماده مثل flex، pt-4، text-blue-500 استفاده میکنی.</div></div>
+          <div class="qa-card"><div class="q">تفاوت با Bootstrap</div><div class="a">Bootstrap component-based هست و ظاهر پیش‌فرض داره. Tailwind utility-based هست و هیچ ظاهر پیش‌فرضی نداره — کنترل کامل.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">در حال جایگزین کردن Bootstrap. اکثر استارتاپ‌های مدرن از Tailwind استفاده میکنن.</div></div></div>
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">CSS خالص باید خوب بلد باشی. بدون درک CSS، Tailwind گیج‌کننده‌ست.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">همون landing page پروژه اولت رو با Tailwind بازطراحی کن — تفاوت رو حس کن.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     BACKEND
+══════════════════════════════════════════ -->
+<div class="category be-cat">
+  <div class="cat-header">
+    <div class="cat-icon">⚙️</div>
+    <div>
+      <div class="cat-title" style="color:var(--be)">Backend</div>
+      <div class="cat-desc">منطق، پردازش، و API — آنچه کاربر نمی‌بیند ولی همه چیز بهش وابسته‌ست</div>
+    </div>
+  </div>
+  <div class="tech-list">
+
+    <!-- Python -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">Python</span>
+        <span class="tech-tagline">قوی‌ترین انتخاب برای تو</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">زبان برنامه‌نویسی high-level که هم برای backend وب، هم AI/ML، هم automation استفاده میشه.</div></div>
+          <div class="qa-card"><div class="q">چرا برای تو بهتره؟</div><div class="a">تو قبلاً Python یاد گرفتی. با Django یا FastAPI میتونی backend قوی بسازی. مهاجرت با Python راحت‌تره چون AI هم بلدی.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">Python + Django یا FastAPI در اروپا و کانادا تقاضای بالایی داره. ترکیب با AI مهارتت رو دو برابر ارزشمند میکنه.</div></div></div>
+          <div class="point"><span class="point-icon">🚀</span><div class="point-content"><div class="pt">بعدش چی؟</div><div class="pd">Django برای اپ‌های کامل، یا FastAPI برای microservices و API-only.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Django -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">Django</span>
+        <span class="tech-tagline">باتری‌دار — همه چیز داخلشه</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">فریمورک Python برای web development. "batteries included" — authentication، admin panel، ORM، migration همه داخلشه.</div></div>
+          <div class="qa-card"><div class="q">Django REST Framework</div><div class="a">افزونه Django که ساخت API رو آسون میکنه. برای Fullstack حتماً باید DRF هم یاد بگیری.</div></div>
+          <div class="qa-card"><div class="q">کجا استفاده میشه؟</div><div class="a">Instagram، Pinterest، Disqus، Mozilla — اینا همه از Django استفاده کردن یا میکنن.</div></div>
+          <div class="qa-card"><div class="q">Django vs FastAPI</div><div class="a">Django: full-featured، برای اپ‌های کامل. FastAPI: سریع‌تر، مدرن‌تر، برای API-only و microservices.</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros"><div class="ph">✅ مزایا</div><ul><li>همه چیز داخلشه</li><li>Admin panel رایگان</li><li>امنیت قوی پیش‌فرض</li><li>ORM قوی</li></ul></div>
+          <div class="cons"><div class="ph">❌ معایب</div><ul><li>برای پروژه‌های کوچیک سنگینه</li><li>نسبتاً کنده‌تر از FastAPI</li><li>منحنی یادگیری</li></ul></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">Python قوی، مفاهیم OOP، آشنایی با HTTP و RESTful API.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">یه REST API برای همون سیستم هتل‌داریت بساز — این بار با Django REST Framework. بعد React Frontend بهش وصل کن.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- FastAPI -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge recommended">توصیه‌شده</span>
+        <span class="tech-name">FastAPI</span>
+        <span class="tech-tagline">آینده backend پایتون</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">فریمورک مدرن Python برای ساخت API. سریع‌ترین Python framework. async نیتیو داره.</div></div>
+          <div class="qa-card"><div class="q">چرا مهمه؟</div><div class="a">سرعت نزدیک به Node.js و Go. type hints پایتون رو به طور خودکار به documentation تبدیل میکنه. برای AI/ML API عالیه.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">داره سریع رشد میکنه. شرکت‌هایی که AI و ML دارن FastAPI رو ترجیح میدن.</div></div></div>
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">Python، async/await، و اگه Django بلدی یادگیری FastAPI خیلی سریعه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- RESTful API -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">RESTful APIs</span>
+        <span class="tech-tagline">زبان مشترک Frontend و Backend</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">استانداردی برای طراحی API. بر اساس HTTP methods (GET, POST, PUT, DELETE) کار میکنه. هر resource یه URL داره.</div></div>
+          <div class="qa-card"><div class="q">مثال واقعی</div><div class="a">GET /api/users/ — لیست کاربران. POST /api/users/ — کاربر جدید. DELETE /api/users/1/ — حذف کاربر ۱.</div></div>
+          <div class="qa-card"><div class="q">Status Codes</div><div class="a">200 OK، 201 Created، 400 Bad Request، 401 Unauthorized، 404 Not Found، 500 Server Error — باید همه رو بدونی.</div></div>
+          <div class="qa-card"><div class="q">JSON چیه؟</div><div class="a">فرمت استاندارد تبادل داده بین frontend و backend. هر API داده رو به شکل JSON برمیگردونه.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">این پل ارتباطی Frontend و Backend هست. بدون REST، Fullstack معنی نداره.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">با Postman یا Thunder Client، API‌های مختلف (مثل CoinGecko که استفاده کردی) رو test کن و Request/Response رو بررسی کن.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- JWT/OAuth -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">JWT / OAuth</span>
+        <span class="tech-tagline">امنیت Authentication</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">JWT چیه؟</div><div class="a">JSON Web Token — روشی برای تایید هویت کاربر. بعد از login، یه token میگیری که با هر request میفرستی.</div></div>
+          <div class="qa-card"><div class="q">OAuth چیه؟</div><div class="a">پروتکل authorization برای "Login with Google/GitHub". بدونش نمیتونی social login پیاده‌سازی کنی.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">هر اپ واقعی Authentication نیاز داره. این یه مهارت اساسیه که در همه پروژه‌ها استفاده میشه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DATABASE
+══════════════════════════════════════════ -->
+<div class="category db-cat">
+  <div class="cat-header">
+    <div class="cat-icon">🗄️</div>
+    <div>
+      <div class="cat-title" style="color:var(--db)">Database</div>
+      <div class="cat-desc">ذخیره‌سازی و مدیریت داده</div>
+    </div>
+  </div>
+  <div class="tech-list">
+
+    <!-- PostgreSQL -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">PostgreSQL</span>
+        <span class="tech-tagline">بهترین Relational Database</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">قوی‌ترین open-source relational database. داده رو در جداول با ارتباط بین هم ذخیره میکنه. از SQL استفاده میکنه.</div></div>
+          <div class="qa-card"><div class="q">چرا PostgreSQL نه MySQL؟</div><div class="a">PostgreSQL feature-rich‌تره، JSON داخلی داره، advanced indexing داره، و برای production-grade app‌ها استانداردتره.</div></div>
+          <div class="qa-card"><div class="q">SQL یعنی چی؟</div><div class="a">Structured Query Language — زبان کوئری زدن به database. SELECT، INSERT، UPDATE، DELETE — این‌ها دستورات پایه SQL هستن.</div></div>
+          <div class="qa-card"><div class="q">کجا استفاده میشه؟</div><div class="a">Instagram، Spotify، Reddit، و اکثر شرکت‌های بزرگ. Django هم PostgreSQL رو به عنوان primary database توصیه میکنه.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">مفاهیم پایه database — table، row، column، primary key، foreign key، و SQL اولیه.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">Schema کامل برای سیستم هتل‌داریت طراحی کن — room، booking، user، payment. با SQL کوئری بزن.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- MongoDB -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge recommended">توصیه‌شده</span>
+        <span class="tech-name">MongoDB</span>
+        <span class="tech-tagline">NoSQL — بدون schema ثابت</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">NoSQL database که داده رو به شکل JSON-like documents ذخیره میکنه. نیازی به schema ثابت نداره.</div></div>
+          <div class="qa-card"><div class="q">کِی استفاده کنی؟</div><div class="a">وقتی داده‌ات ساختار متغیر داره، یا real-time app میسازی، یا با Node.js کار میکنی.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">اگه Node.js stack استفاده میکنی MongoDB خیلی رایجه. ولی برای Python stack، PostgreSQL اولویت داره.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Redis -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge recommended">توصیه‌شده</span>
+        <span class="tech-name">Redis</span>
+        <span class="tech-tagline">سرعت — همه چیز در RAM</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">In-memory database — داده رو توی RAM نگه میداره. ۱۰۰ برابر سریع‌تر از دیسک. برای caching استفاده میشه.</div></div>
+          <div class="qa-card"><div class="q">کجا استفاده میشه؟</div><div class="a">Session storage، API caching، rate limiting، real-time features. Twitter از Redis برای timeline استفاده میکنه.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">وقتی سایتت traffic زیاد داشته باشه، بدون caching database کند میشه. Redis این مشکل رو حل میکنه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEVOPS
+══════════════════════════════════════════ -->
+<div class="category dv-cat">
+  <div class="cat-header">
+    <div class="cat-icon">🚀</div>
+    <div>
+      <div class="cat-title" style="color:var(--dv)">DevOps</div>
+      <div class="cat-desc">Deploy، مقیاس‌پذیری، و عملیات</div>
+    </div>
+  </div>
+  <div class="tech-list">
+
+    <!-- Docker -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge essential">ضروری</span>
+        <span class="tech-name">Docker</span>
+        <span class="tech-tagline">روی هر سیستمی کار میکنه</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">containerization platform — برنامه‌ات رو با همه dependencies بسته‌بندی میکنه. "روی لپ‌تاپم کار میکرد" دیگه excuse نیست.</div></div>
+          <div class="qa-card"><div class="q">Container چیه؟</div><div class="a">یه محیط ایزوله که برنامه‌ات داخلش اجرا میشه. مثل یه VM سبک‌وزن. هر container کاملاً مستقله.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">در تقریباً همه job descriptionهای backend و fullstack Docker الان ضروریه.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">Django + PostgreSQL + Redis اپت رو داخل Docker Compose بذار — یه دستور همه چیز رو راه میندازه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- AWS -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge recommended">توصیه‌شده</span>
+        <span class="tech-name">AWS</span>
+        <span class="tech-tagline">بزرگترین Cloud</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">Amazon Web Services — بزرگترین cloud provider. سرور، storage، database، AI — هر چیزی نیاز داشته باشی.</div></div>
+          <div class="qa-card"><div class="q">باید همه رو بلد باشم؟</div><div class="a">نه! برای شروع EC2 (سرور)، S3 (فایل)، و RDS (database) کافیه. بقیه رو بعداً یاد میگیری.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💡</span><div class="point-content"><div class="pt">نکته مهم</div><div class="pd">برای شروع میتونی از Render.com یا Railway.app استفاده کنی — خیلی ساده‌تر از AWS. بعداً AWS یاد بگیر.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MISSING TECHNOLOGIES
+══════════════════════════════════════════ -->
+<div class="missing-banner">
+  <h3>⚠️ تکنولوژی‌های مهمی که در روادمپ نیستن</h3>
+  <div class="missing-chips">
+    <span class="chip">Git & GitHub</span>
+    <span class="chip">TypeScript</span>
+    <span class="chip">Testing (Jest/Pytest)</span>
+    <span class="chip">Linux & Command Line</span>
+    <span class="chip">CI/CD Pipelines</span>
+    <span class="chip">System Design</span>
+    <span class="chip">Web Security (OWASP)</span>
+    <span class="chip">Next.js</span>
+    <span class="chip">WebSockets</span>
+    <span class="chip">Performance Optimization</span>
+    <span class="chip">Accessibility (a11y)</span>
+    <span class="chip">SEO Fundamentals</span>
+  </div>
+</div>
+
+<div class="category missing-cat">
+  <div class="cat-header">
+    <div class="cat-icon">🔴</div>
+    <div>
+      <div class="cat-title" style="color:var(--missing)">تکنولوژی‌های غایب — اما حیاتی</div>
+      <div class="cat-desc">اینا توی روادمپ نیستن ولی بدونشون Fullstack واقعی نمیشی</div>
+    </div>
+  </div>
+  <div class="tech-list">
+
+    <!-- Git -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge missing-badge">غایب — ضروری</span>
+        <span class="tech-name">Git & GitHub</span>
+        <span class="tech-tagline">بدون این استخدام نمیشی</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">Git چیه؟</div><div class="a">سیستم کنترل نسخه. هر تغییری که به کدت میدی ذخیره میشه. میتونی به هر نسخه قبلی برگردی.</div></div>
+          <div class="qa-card"><div class="q">GitHub چیه؟</div><div class="a">پلتفرم آنلاین برای Git. رزومه برنامه‌نویسه. کارفرماها اول GitHub تو رو چک میکنن.</div></div>
+          <div class="qa-card"><div class="q">دستورات مهم</div><div class="a">git init، git add، git commit، git push، git pull، git branch، git merge — اینا پایه‌ هستن.</div></div>
+          <div class="qa-card"><div class="q">چرا این قدر مهمه؟</div><div class="a">هیچ شرکتی کد بدون Git نمینویسه. اگه Git بلد نباشی حتی نمیتونی اول روز کاریت شروع کنی.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">✅</span><div class="point-content"><div class="pt">چرا یاد بگیری؟</div><div class="pd">این نه یه مهارت، بلکه یه requirement هست. بدون Git نمیتونی در هیچ تیمی کار کنی.</div></div></div>
+          <div class="point"><span class="point-icon">❌</span><div class="point-content"><div class="pt">اگه skip کنی چی میشه؟</div><div class="pd">در مصاحبه رد میشی. هیچ شرکتی کسی که Git بلد نیست استخدام نمیکنه.</div></div></div>
+          <div class="point"><span class="point-icon">🛠</span><div class="point-content"><div class="pt">پروژه تمرینی</div><div class="pd">همین الان پروژه HTML/CSS اولت رو روی GitHub بذار. از این به بعد هر پروژه‌ای میسازی commit کن.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- TypeScript -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge missing-badge">غایب — مهم</span>
+        <span class="tech-name">TypeScript</span>
+        <span class="tech-tagline">JavaScript با type safety</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">JavaScript + type system. باگ‌ها رو قبل از runtime پیدا میکنه. کد خواناتر و قابل نگهداری‌تره.</div></div>
+          <div class="qa-card"><div class="q">چرا مهمه؟</div><div class="a">اکثر شرکت‌های بزرگ TypeScript استفاده میکنن. در React پروژه‌های جدی تقریباً استاندارد شده.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">در آگهی‌های frontend و fullstack اروپا و کانادا، TypeScript داره به JavaScript vanilla ترجیح داده میشه.</div></div></div>
+          <div class="point"><span class="point-icon">📚</span><div class="point-content"><div class="pt">پیش‌نیاز</div><div class="pd">JavaScript خوب. TypeScript یه superset از JS هست — همه چیز JS درش کار میکنه.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Testing -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge missing-badge">غایب — مهم</span>
+        <span class="tech-name">Testing (Jest / Pytest)</span>
+        <span class="tech-tagline">کدی که تست نداره، کد نیست</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">Unit Test چیه؟</div><div class="a">تست یه تابع یا component به صورت مستقل. Pytest برای Python، Jest برای JavaScript.</div></div>
+          <div class="qa-card"><div class="q">چرا مهمه؟</div><div class="a">بدون تست، هر بار که چیزی رو تغییر میدی نمیدونی چیز دیگه‌ای شکسته یا نه. در تیم بدون تست نمیشه کار کرد.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">در مصاحبه‌های شرکت‌های بین‌المللی حتماً ازت تست میخوان. بدون این مهارت، senior نمیشی.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Next.js -->
+    <details class="tech-item">
+      <summary class="tech-summary">
+        <span class="tech-badge missing-badge">غایب — ضروری</span>
+        <span class="tech-name">Next.js</span>
+        <span class="tech-tagline">React برای production</span>
+        <span class="tech-chevron">▼</span>
+      </summary>
+      <div class="tech-body">
+        <div class="qa-grid">
+          <div class="qa-card"><div class="q">چیه؟</div><div class="a">فریمورک React که SSR و SSG اضافه میکنه. بهتر برای SEO، سریع‌تر برای کاربر. ساخته Vercel.</div></div>
+          <div class="qa-card"><div class="q">SSR چیه؟</div><div class="a">Server-Side Rendering — صفحه روی سرور ساخته میشه، نه توی browser. برای SEO خیلی بهتره.</div></div>
+        </div>
+        <div class="seven-points">
+          <div class="point"><span class="point-icon">💼</span><div class="point-content"><div class="pt">بازار کار</div><div class="pd">React به تنهایی دیگه کافی نیست. اکثر job pasting‌های frontend Next.js هم میخوان.</div></div></div>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</div>
+
+<!-- Summary Table -->
+<div class="sec-title">جدول اولویت‌بندی یادگیری برای تو</div>
+<div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:60px;">
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>مرحله</th>
+        <th>تکنولوژی</th>
+        <th>مدت</th>
+        <th>اولویت</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>۱</td><td>Git & GitHub</td><td>۱ هفته</td><td style="color:#4ade80">همین الان</td></tr>
+      <tr><td>۲</td><td>CSS Grid</td><td>۵ روز</td><td style="color:#4ade80">همین الان</td></tr>
+      <tr><td>۳</td><td>JavaScript ES6+</td><td>۲-۳ ماه</td><td style="color:#60a5fa">بعدی</td></tr>
+      <tr><td>۴</td><td>TypeScript مقدماتی</td><td>۳ هفته</td><td style="color:#60a5fa">بعد JS</td></tr>
+      <tr><td>۵</td><td>React.js</td><td>۲ ماه</td><td style="color:#60a5fa">بعد TS</td></tr>
+      <tr><td>۶</td><td>Tailwind CSS</td><td>۱ هفته</td><td style="color:#60a5fa">با React</td></tr>
+      <tr><td>۷</td><td>Django + DRF</td><td>۲ ماه</td><td style="color:#c084fc">ماه ۵</td></tr>
+      <tr><td>۸</td><td>PostgreSQL + SQL</td><td>۱ ماه</td><td style="color:#c084fc">با Django</td></tr>
+      <tr><td>۹</td><td>REST API + JWT</td><td>۳ هفته</td><td style="color:#c084fc">با Django</td></tr>
+      <tr><td>۱۰</td><td>Next.js</td><td>۱.۵ ماه</td><td style="color:#fb923c">ماه ۸</td></tr>
+      <tr><td>۱۱</td><td>Docker</td><td>۳ هفته</td><td style="color:#fb923c">ماه ۹</td></tr>
+      <tr><td>۱۲</td><td>Testing (Jest/Pytest)</td><td>۱ ماه</td><td style="color:#fb923c">ماه ۱۰</td></tr>
+      <tr><td>۱۳</td><td>Redis + Caching</td><td>۲ هفته</td><td style="color:#9ca3af">ماه ۱۱</td></tr>
+      <tr><td>۱۴</td><td>AWS پایه</td><td>۱ ماه</td><td style="color:#9ca3af">ماه ۱۲</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Final Verdict -->
+<div class="verdict">
+  <h2>نتیجه‌گیری نهایی</h2>
+  <p>این روادمپ یه نقشه کلی خوبه ولی ناقصه. Git/GitHub که اساسی‌ترین ابزار برنامه‌نویسیه اصلاً نیست. TypeScript و Testing که در بازار بین‌المللی ضروری شدن غایبن. ترتیب یادگیری مشخص نشده. ولی مسیر کلی درسته — Frontend، Backend، Database، DevOps.</p>
+  <p style="color:#f59e0b;font-weight:600">مهم‌ترین چیزی که این روادمپ نگفته: بدون پروژه‌های واقعی و Git فعال، هیچ‌کدام از این‌ها ارزشی برای کارفرما نداره.</p>
+  <div class="verdict-chips">
+    <span class="vchip" style="background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)">برای استخدام شرکت: مناسب با اضافات</span>
+    <span class="vchip" style="background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)">برای فریلنسر: کافیه</span>
+    <span class="vchip" style="background:rgba(168,85,247,0.15);color:#c084fc;border:1px solid rgba(168,85,247,0.3)">برای استارتاپ: با Next.js کامل میشه</span>
+    <span class="vchip" style="background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.3)">نمره کلی: ۶.۵ از ۱۰</span>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
