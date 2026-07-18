@@ -1,7 +1,7 @@
 <div align="center">
 
 # FullStack Roadmap Analysis
-# 🚀🧑‍💻
+# 📚🚀📚
 
 ### A Modern Interactive Full-Stack Developer Roadmap Analysis
 
